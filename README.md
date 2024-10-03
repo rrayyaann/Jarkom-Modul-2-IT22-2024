@@ -9,7 +9,10 @@
 ## Topologi 
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/4da21f44-b5a4-4af5-ab88-b38abc6b979a">
 
+<details>
+
 <summary>Detail Gambar</summary>
+
 GNS
 <img width="1710" alt="image" src="https://github.com/user-attachments/assets/fa16d0ee-ea05-4df0-b6fb-7370ede1aef7">
 
@@ -32,16 +35,6 @@ GNS
 | **Mulawarman**      | eth0        | 192.244.3.2| 255.255.255.0 | 192.244.3.1 |
 | **AlexanderVolta**  | eth0        | 192.244.3.3| 255.255.255.0 | 192.244.3.1 |
 | **Balaraja**        | eth0        | 192.244.3.4| 255.255.255.0 | 192.244.3.1 |
-
-Setting IP Client
-```
-nano /etc/resolv.conf
-```
-```jsx
-nameserver 192.244.3.5  # IP Sriwijaya
-nameserver 192.244.2.2  # IP Majapahit
-nameserver 192.168.122.1 # IP Router 
-```
  
 ## SOAL 1
 > Untuk mempersiapkan peperangan World War MMXXIV (Iya sebanyak itu), Sriwijaya membuat dua kotanya menjadi web server yaitu Tanjungkulai, dan Bedahulu, serta Sriwijaya sendiri akan menjadi DNS Master. Kemudian karena merasa terdesak, Majapahit memberikan bantuan dan menjadikan kerajaannya (Majapahit) menjadi DNS Slave. 
@@ -356,3 +349,114 @@ service bind9 restart
 
 ## SOAL 5
 > Pastikan domain-domain tersebut dapat diakses oleh seluruh komputer (client) yang berada di Nusantara.
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Setting IP Client
+```
+nano /etc/resolv.conf
+```
+Edit config file:
+```jsx
+nameserver 192.244.3.5   # IP Sriwijaya
+nameserver 192.244.2.2   # IP Majapahit
+nameserver 192.168.122.1 # IP Router 
+```
+Izinkan File:
+```jsx
+chmod +x sriwijaya.sh
+chmod +x pasopati.sh
+chmod +x rujapala.sh
+```
+Start program:
+```bash
+./sriwijaya.sh
+./pasopati.sh
+./rujapala.sh
+```
+Note: Restore bind
+```jsx
+apt-get -o DPkg::Options::="--force-confmiss" --reinstall install bind9
+```
+
+</details>
+
+<details>
+
+<summary>Detail Dokumentasi</summary>
+
+
+## Samaratungga (Client)
+
+```jsx
+ping sudarsana.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/7dce1827-e738-40d9-82bd-32da510b1c3e">
+
+```jsx
+ping pasopati.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/74860f32-377d-4d37-829e-300479b92237">
+
+```jsx
+ping rujapala.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/649babd0-fb84-423f-8e38-994357195f5a">
+
+
+## Mulawarman (Client)
+
+```jsx
+ping sudarsana.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/f14a6a58-8186-4171-a617-91906e3a4caf">
+
+```jsx
+ping pasopati.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/3f7863f1-37ed-467a-b567-d1a3bfa114cb">
+
+```jsx
+ping rujapala.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/ff020a1d-8f77-49d0-abc4-f8d067859bc6">
+
+
+## AlexanderVolta (Client)
+
+```jsx
+ping sudarsana.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/7dfe93c0-d13d-4127-8d4d-19e6ec6eee82">
+
+```jsx
+ping pasopati.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/a0f074c0-90b6-40d7-9ae4-edda9fa2835f">
+
+```jsx
+ping rujapala.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/2cfb2674-9e2c-44f8-86e0-93f3eb47006a">
+
+
+### Balaraja (Client)
+
+```jsx
+ping sudarsana.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/a76d8252-730e-4304-9746-ec15e55c484f">
+
+```jsx
+ping pasopati.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/bb403a3e-d8ed-4185-9514-9af662556da1">
+
+```jsx
+ping rujapala.it22.com
+```
+<img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/59f1b8d7-fbd6-47fa-a33a-44176379a30c">
+
+</details>
