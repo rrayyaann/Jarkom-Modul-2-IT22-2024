@@ -8,7 +8,6 @@
 
 ## Topologi 
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/4da21f44-b5a4-4af5-ab88-b38abc6b979a">
-<details>
 
 <summary>Detail Gambar</summary>
 GNS
@@ -33,6 +32,16 @@ GNS
 | **Mulawarman**      | eth0        | 192.244.3.2| 255.255.255.0 | 192.244.3.1 |
 | **AlexanderVolta**  | eth0        | 192.244.3.3| 255.255.255.0 | 192.244.3.1 |
 | **Balaraja**        | eth0        | 192.244.3.4| 255.255.255.0 | 192.244.3.1 |
+
+Setting IP Client
+```
+nano /etc/resolv.conf
+```
+```jsx
+nameserver 192.244.3.5  # IP Sriwijaya
+nameserver 192.244.2.2  # IP Majapahit
+nameserver 192.168.122.1 # IP Router 
+```
  
 ## SOAL 1
 > Untuk mempersiapkan peperangan World War MMXXIV (Iya sebanyak itu), Sriwijaya membuat dua kotanya menjadi web server yaitu Tanjungkulai, dan Bedahulu, serta Sriwijaya sendiri akan menjadi DNS Master. Kemudian karena merasa terdesak, Majapahit memberikan bantuan dan menjadikan kerajaannya (Majapahit) menjadi DNS Slave. 
@@ -221,16 +230,7 @@ service bind9 restart
 - Specify hostname in NS records: sudarsana.it22.com.
 - Specify address in A records: 192.244.1.3
 - Specify canonical name (alias) in CNAME records: sudarsana.it22.com.
-
-Sett IP 
-```
-nano /etc/resolv.conf
-```
-```jsx
-nameserver 192.244.3.5  # IP Sriwijaya
-nameserver 192.244.2.2  # IP Majapahit
-nameserver 192.168.122.1 # IP Router 
-```
+<img height="150" width="300" alt="image" src="https://github.com/user-attachments/assets/24b79f63-1e3d-46f3-882f-2f5f1ba6dc84">
 
 </details>
 
@@ -241,7 +241,7 @@ nameserver 192.168.122.1 # IP Router
 
 <summary>Detail Configure</summary>
 
-## Setup DNS @ Pochinki
+## Setup DNS @ Sriwijaya
 
 Update package lists
 ```
@@ -253,9 +253,9 @@ Install bind9
 ```
 Edit the DNS record
 ```
-nano /etc/bind/it22/airdrop.it22.com
+nano pasopati.sh
 ```
-Edit file /etc/bind/it22/airdrop.it22.com as follows:
+Edit config file:
 ```bash
 #!/bin/bash
 
@@ -282,14 +282,15 @@ $TTL    604800
                          604800 )       ; Negative Cache TTL
 ;
 @       IN      NS      pasopati.it40.com.
-@       IN      A       10.83.3.6     ; IP Kotalingga
+@       IN      A       192.244.3.6     ; IP Kotalingga
 www     IN      CNAME   pasopati.it22.com.' > /etc/bind/jarkom/pasopati.it22.com
 
 service bind9 restart
 ```
-- Specify hostname in NS records: airdrop.it22.com.
-- Specify address in A records: 192.244.1.4
-- Specify canonical name (alias) in CNAME records: airdrop.it22.com.
+- Specify hostname in NS records: pasopati.it22.com.
+- Specify address in A records: 192.244.3.6
+- Specify canonical name (alias) in CNAME records: pasopati.it22.com.
+<img height="150" width="300" alt="image" src="https://github.com/user-attachments/assets/24b79f63-1e3d-46f3-882f-2f5f1ba6dc84">
 
 </details>
 
@@ -300,7 +301,7 @@ service bind9 restart
 
 <summary>Detail Configure</summary>
 
-## Setup DNS @ Pochinki
+## Setup DNS @ Sriwijaya
 
 Update package lists
 ```
@@ -312,9 +313,9 @@ Install bind9
 ```
 Edit the DNS record
 ```
-nano /etc/bind/it22/airdrop.it22.com
+nano rujapala.sh
 ```
-Edit file /etc/bind/it22/airdrop.it22.com as follows:
+Edit config file:
 ```bash
 #!/bin/bash
 
@@ -341,14 +342,15 @@ $TTL    604800
                          604800 )       ; Negative Cache TTL
 ;
 @       IN      NS      pasopati.it40.com.
-@       IN      A       10.83.3.6     ; IP Kotalingga
+@       IN      A       192.244.2.3     ; IP Tanjungkulai
 www     IN      CNAME   rujapala.it22.com.' > /etc/bind/jarkom/rujapala.it22.com
 
 service bind9 restart
 ```
-- Specify hostname in NS records: airdrop.it22.com.
-- Specify address in A records: 192.244.1.4
-- Specify canonical name (alias) in CNAME records: airdrop.it22.com.
+- Specify hostname in NS records: rujapala.it22.com.
+- Specify address in A records: 192.244.2.3
+- Specify canonical name (alias) in CNAME records: rujapala.it22.com.
+<img height="150" width="300" alt="image" src="https://github.com/user-attachments/assets/24b79f63-1e3d-46f3-882f-2f5f1ba6dc84">
 
 </details>
 
