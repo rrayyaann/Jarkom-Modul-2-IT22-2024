@@ -460,3 +460,6 @@ ping rujapala.it22.com
 <img height="400" width="1500" alt="image" src="https://github.com/user-attachments/assets/59f1b8d7-fbd6-47fa-a33a-44176379a30c">
 
 </details>
+
+## SOAL 6
+> Beberapa daerah memiliki keterbatasan yang menyebabkan hanya dapat mengakses domain secara langsung melalui alamat IP domain tersebut. Karena daerah tersebut tidak diketahui secara spesifik, pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga (Notes: menggunakan pointer record).
