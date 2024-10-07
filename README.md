@@ -4,7 +4,7 @@
 | Nama | NRP |
 |---------------------------|------------|
 |Muhamad Arrayyan | 5027231014 |
-|Fadlillah Cantika Sari Hermawan | 5027231042 |
+
 
 ## Topologi 
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/4da21f44-b5a4-4af5-ab88-b38abc6b979a">
@@ -599,9 +599,785 @@ service bind9 restart
 
 ## SOAL 8
 > Kamu juga diperintahkan untuk membuat subdomain khusus melacak kekuatan tersembunyi di Ohio dengan subdomain cakra.sudarsana.xxxx.com yang mengarah ke Bedahulu.
+<details>
+
+<summary>Detail Configure</summary> 
+
+Lakukan setup konfigurasi pada Sriwijaya (DNS Master)
+```bash
+#!/bin/bash
+
+# Tambahkan konfigurasi untuk membuat subdomain cakra.sudarsana.it22.com
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     sudarsana.it22.com. sudarsana.it22.com. (
+                        2024050301      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      sudarsana.it22.com.
+@       IN      A       192.244.1.3     ; IP Solok
+www     IN      CNAME   sudarsana.it22.com.
+cakra  IN      A        192.244.2.4     ; IP Bedahulu' > /etc/bind/jarkom/sudarsana.it22.com
+
+service bind9 restart
+```
+</details>
 
 ## SOAL 9
 > Karena terjadi serangan DDOS oleh shikanoko nokonoko koshitantan (NUN), sehingga sistem komunikasinya terhalang. Untuk melindungi warga, kita diperlukan untuk membuat sistem peringatan dari siren man oleh Frekuensi Freak dan memasukkannya ke subdomain panah.pasopati.xxxx.com dalam folder panah dan pastikan dapat diakses secara mudah dengan menambahkan alias www.panah.pasopati.xxxx.com dan mendelegasikan subdomain tersebut ke Majapahit dengan alamat IP menuju radar di Kotalingga.
 
+<details>
+
+<summary>Detail Configure</summary> 
+
+Lakukan set up konfigurasi di Sriwijaya (DNS Master)
+```bash
+#!/bin/bash
+
+# Tambahkan konfigurasi untuk delegasi panah.pasopati.it22.com ke Majapahit
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     pasopati.it22.com. pasopati.it22.com. (
+                        2024050301      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      pasopati.it40.com.
+@       IN      A       192.244.3.6     ; IP Kotalingga
+www     IN      CNAME   pasopati.it40.com.
+ns1     IN      A       192.244.2.2     ; Terusin ke Majapahit
+panah   IN      NS      ns1' > /etc/bind/jarkom/pasopati.it22.com
+
+echo '
+options {
+        directory "/var/cache/bind";
+
+        //dnssec-validation auto;
+        allow-query{any;};
+
+        auth-nxdomain no;    # confirm to RFC1035
+        listen-on-v6 { any; };
+};' > /etc/bind/named.conf.options
+
+service bind9 restart
+```
+Lakukan setup konfigurasi juga di Majapahit (DNS Slave)
+```bash
+#!/bin/bash
+
+# Setup
+echo '
+options {
+        directory "/var/cache/bind";
+
+        //dnssec-validation auto;
+        allow-query{any;};
+
+        auth-nxdomain no;
+        listen-on-v6 { any; };
+};' > /etc/bind/named.conf.options
+
+echo 'zone "panah.pasopati.it22.com" {
+	type master;
+	file "/etc/bind/panah/panah.pasopati.it22.com";
+};' >> /etc/bind/named.conf.local
+
+mkdir /etc/bind/panah
+
+cp /etc/bind/db.local /etc/bind/panah/panah.pasopati.it22.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     panah.pasopati.it22.com. root.panah.pasopati.it22.com. (
+                        2024050301      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      panah.pasopati.it22.com.
+@       IN      A       192.244.3.6     ; IP Kotalingga
+www     IN      CNAME   panah.pasopati.it22.com.' > /etc/bind/panah/panah.pasopati.it22.com
+
+service bind9 restart
+```
+</details>
+
 ## SOAL 10
 > Markas juga meminta catatan kapan saja meme brain rot akan dijatuhkan, maka buatlah subdomain baru di subdomain panah yaitu log.panah.pasopati.xxxx.com serta aliasnya www.log.panah.pasopati.xxxx.com yang juga mengarah ke Kotalingga.
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Buat konfigurasi script pada Majapahit (DNS Slave)
+```bash
+#!/bin/bash
+
+# Tambahkan konfigurasi untuk membuat subdomain log.panah.pasopati.it22.com
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     panah.pasopati.it22.com. panah.pasopati.it22.com. (
+                        2024050301      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      panah.pasopati.it22.com.
+@       IN      A       192.244.3.6     ; IP Kotalingga
+www     IN      CNAME   panah.pasopati.it40.com.
+log     IN      A       192.244.3.6     ; IP Kotalingga
+www.log IN      CNAME   panah.pasopati.it22.com.' > /etc/bind/panah/panah.pasopati.it22.com
+
+service bind9 restart
+```
+</details>
+
+## SOAL 11
+> Setelah pertempuran mereda, warga IT dapat kembali mengakses jaringan luar dan menikmati meme brainrot terbaru, tetapi hanya warga Majapahit saja yang dapat mengakses jaringan luar secara langsung. Buatlah konfigurasi agar warga IT yang berada diluar Majapahit dapat mengakses jaringan luar melalui DNS Server Majapahit.
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Lakukan setup konfigurasi pada Sriwijaya (DNS Master)
+```bash
+#!/bin/bash
+
+# Tambahkan konfigurasi untuk DNS forwarder
+echo '
+options {
+        directory "/var/cache/bind";
+
+        forwarders {
+                192.168.122.1; //IP Nusantara
+        };
+        //dnssec-validation auto;
+        allow-query{any;};
+
+        auth-nxdomain no;
+        listen-on-v6 { any; };
+};' > /etc/bind/named.conf.options
+
+service bind9 restart
+```
+Lakukan setup konfigurasi Majapahit (DNS Slave)
+```bash
+#!/bin/bash
+
+# Tambahkan konfigurasi untuk DNS forwarder
+echo '
+options {
+        directory "/var/cache/bind";
+
+        forwarders {
+                192.168.122.1; //IP Nusantara
+        };
+        //dnssec-validation auto;
+        allow-query{any;};
+
+        auth-nxdomain no;
+        listen-on-v6 { any; };
+};' > /etc/bind/named.conf.options
+
+service bind9 restart
+```
+</details>
+
+## SOAL 12
+> Karena pusat ingin sebuah laman web yang ingin digunakan untuk memantau kondisi kota lainnya maka deploy laman web ini (cek resource yg lb) pada Kotalingga menggunakan apache.
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Lakukan config network dengan menambahkan ip Kotalingga pada Sriwijaya (DNS Master)
+```bash
+#!/bin/bash
+
+# Tambahkan nameserver Ip Kotalingga
+echo '
+nameserver 192.244.3.6' > /etc/resolv.conf
+```
+Setelah itu lakukan instalasi browser lynx pada setiap client
+```bash
+#!/bin/bash
+
+# Lakukan instalasi browser Lynx
+if ! command -v named &> /dev/null
+then
+    echo "Lynx belum ada, melakukan penginstalan..."
+
+    # Melakukan instalasi lynx
+    apt-get update
+    apt-get install lynx -y
+else
+    echo "lynx sudah ada dan siap digunakan."
+fi
+```
+Lakukan setup konfigurasi pada Kotalingga (Web Server)
+```bash
+#!/bin/bash
+
+# Tambahkan konfigurasi agar bisa deploy
+
+# Cek apakah apache2 sudah terinstal
+if ! command -v named &> /dev/null
+then
+    echo "Apache2 belum ada, melakukan penginstalan..."
+    # Melakukan instalasi apache2
+    apt-get update
+    apt-get install apache2 -y
+    apt-get install libapache2-mod-php7.0 -y
+else
+    echo "apache2 sudah terinstal."
+fi
+
+# Cek apakah unzip sudah terinstal
+if ! command -v named &> /dev/null
+then
+    echo "Unzip belum ada, melakukan penginstalan..."
+    # Melakukan instalasi unzip
+    apt-get update
+    apt-get install unzip -y
+else
+    echo "unzip sudah terinstal."
+fi
+
+# Cek apakah php sudah terinstal
+if ! command -v named &> /dev/null
+then
+    echo "PHP belum ada, melakukan penginstalan..."
+    # Melakukan instalasi php
+    apt-get update
+    apt-get install php -y
+else
+    echo "php sudah terinstal."
+fi
+
+# Download file lb.zip
+curl -k "https://drive.usercontent.google.com/download?id={1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7}&confirm=xxx" -o lb.zip
+
+# Unzip file lb.zip
+unzip lb.zip
+
+# Hapus file template
+rm -rf /var/www/html/index.php
+
+# Copy file index.php
+cp worker/index.php /var/www/html/index.php
+
+service apache2 restart
+```
+</details>
+
+## SOAL 13
+> Karena Sriwijaya dan Majapahit memenangkan pertempuran ini dan memiliki banyak uang dari hasil penjarahan (sebanyak 35 juta, belum dipotong pajak) maka pusat meminta kita memasang load balancer untuk membagikan uangnya pada web nya, dengan Kotalingga, Bedahulu, Tanjungkulai sebagai worker dan Solok sebagai Load Balancer menggunakan apache sebagai web server nya dan load balancer nya.
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Lakukan setup konfigurasi pada Sriwijaya (DNS Master) dan Majapahit (DNS Slave)
+```bash
+#!/bin/bash
+
+# Tambahkan nameserver Ip Solok (LoadBalancer)
+echo '
+nameserver 192.168.122.1
+nameserver 192.244.1.3' > /etc/resolv.conf
+```
+Lakukan setup konfigurasi pada Load Balancer (Solok)
+```bash
+#!/bin/bash
+
+# Tambahkan keperluan untuk setting load balancer pada Solok
+
+# Cek apakah apache2 wes onok bolo.
+if ! command -v named &> /dev/null
+then
+    echo "Apache2 durung keinstall, utiwi get..."
+    # Melakukan instalasi apache2
+    apt-get update
+    apt-get install apache2 -y
+    apt-get install libapache2-mod-php7.0 -y
+else
+    echo "apache2 wes onok bolo.."
+fi
+
+# Cek apakah php sudah ada.
+if ! command -v named &> /dev/null
+then
+    echo "PHP durung keinstall, utiwi get..."
+    # Melakukan instalasi php
+    apt-get update
+    apt-get install php -y
+else
+    echo "php wes onok bolo.."
+fi
+
+# Enable apache2 module
+a2enmod proxy_balancer
+a2enmod proxy_http
+a2enmod lbmethod_byrequests
+echo '
+<VirtualHost *:80>
+    <Proxy balancer://serverpool>
+        BalancerMember http://192.244.3.6/ #Kotalingga
+        BalancerMember http://192.244.2.4/ #Bedahulu
+        BalancerMember http://192.244.2.3/ #Tanjungkulai
+        Proxyset lbmethod=byrequests
+    </Proxy>
+    ProxyPass / balancer://serverpool/
+    ProxyPassReverse / balancer://serverpool/
+</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
+
+service apache2 restart
+```
+Lakukan setup konfigurasi pada masing-masing Web Server / Worker yang ada (Kotalingga, Bedahulu, Tanjungkulai)
+```bash
+#!/bin/bash
+
+# Tambahkan untuk keperluan load balancer
+# Cek apakah apache2 sudah terinstal
+if ! command -v named &> /dev/null
+then
+    echo "Apache2 belum terinstal, melakukan instalasi..."
+    # Melakukan instalasi apache2
+    apt-get update
+    apt-get install apache2 -y
+    apt-get install libapache2-mod-php7.0 -y
+else
+    echo "apache2 sudah terinstal."
+fi
+
+# Cek apakah unzip sudah terinstal
+if ! command -v named &> /dev/null
+then
+    echo "Unzip belum terinstal, melakukan instalasi..."
+    # Melakukan instalasi unzip
+    apt-get update
+    apt-get install unzip -y
+else
+    echo "unzip sudah terinstal."
+fi
+
+# Cek apakah php sudah terinstal
+if ! command -v named &> /dev/null
+then
+    echo "PHP belum terinstal, melakukan instalasi..."
+    # Melakukan instalasi php
+    apt-get update
+    apt-get install php -y
+else
+    echo "php sudah terinstal."
+fi
+
+# Download file lb.zip
+curl -k "https://drive.usercontent.google.com/download?id={1Sqf0TIiybYyUp5nyab4twy9svkgq8bi7}&confirm=xxx" -o lb.zip
+
+# Unzip file lb.zip
+unzip lb.zip
+
+# Hapus file template
+rm -rf /var/www/html/index.php
+
+# Copy file index.php
+cp worker/index.php /var/www/html/index.php
+
+service apache2 restart
+```
+Testing menggunakan salah satu client dengan command lynx `http://192.244.1.3/index.php`
+
+</details>
+
+## SOAL 14
+> Selama melakukan penjarahan mereka melihat bagaimana web server luar negeri, hal ini membuat mereka iri, dengki, sirik dan ingin flexing sehingga meminta agar web server dan load balancer nya diubah menjadi nginx.
+<details>
+
+<summary>Detail Configure</summary> 
+
+Ubah konfigurasi pada semua web server / worker (Kotalingga, Bedahulu, Tanjungkulai)
+```jsx
+service apache2 stop
+
+apt install nginx php php-fpm -y
+
+service php7.0-fpm start
+
+echo 'server {
+listen 80;
+
+root /var/www/html;
+index index.php index.html index.htm index.nginx-debian.html;
+
+server_name _;
+
+location / {
+try_files $uri $uri/ /index.php?$query_string;
+}
+
+location ~ \.php$ {
+include snippets/fastcgi-php.conf;
+fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+}
+
+location ~ /\.ht {
+deny all;
+}
+}' > /etc/nginx/sites-enabled/default
+
+service php7.0-fpm restart
+
+service nginx restart
+```
+Lakukan juga pengubahan pada konfigurasi Load Balancer (Solok)
+```jsx
+service apache2 stop
+
+#Lakukan instalasi php dan nginx
+apt-get update
+apt install nginx php php-fpm -y
+apt-get install nginx -y
+
+echo "upstream backend {
+  server 192.244.3.6; # Kotalingga
+  server 192.244.2.4; # Bedahulu
+  server 192.244.2.3; # Tanjungkulai
+}
+
+server {
+  listen 80;
+
+  location / {
+    proxy_pass http://backend;
+  }
+}
+" > /etc/nginx/sites-enabled/default
+
+service nginx restart
+```
+</details>
+
+## SOAL 15
+> Markas pusat meminta laporan hasil benchmark dengan menggunakan apache benchmark dari load balancer dengan 2 web server yang berbeda tersebut dan meminta secara detail dengan ketentuan:
+> - Nama Algoritma Load Balancer
+> - Report hasil testing apache benchmark
+> - Grafik request per second untuk masing masing algoritma. 
+> - Analisis
+> - Meme terbaik kalian (terserah ( ͡° ͜ʖ ͡°)) 🤓
+<details>
+
+<summary>Detail Configure</summary> 
+
+Lakukan instalasi apache2-utils untuk melakukan instalasi pada tools yang diperlukan
+```jsx
+apt-get install apache2-utils -y
+```
+Jalankan command:   
+```jsx
+`ab -n 1000 -c 100 http://(ip load balancer)`
+```
+disini kami memakai
+```jsx
+`ab -n 1000 -c 100 http://192.244.1.3`
+```
+</details>
+
+## SOAL 16
+> Karena dirasa kurang aman dari brainrot karena masih memakai IP, markas ingin akses ke Solok memakai solok.xxxx.com dengan alias www.solok.xxxx.com (sesuai web server terbaik hasil analisis kalian).
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Lakukan reconfig pada DNS Master (Sriwijaya)
+```bash
+echo 'zone "solok.it22.com" {
+        type master;
+        file "/etc/bind/jarkom/solok.it22.com";
+};' > /etc/bind/named.conf.local
+
+mkdir /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/solok.it22.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     solok.it22.com. root.solok.it22.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      solok.it22.com.
+@       IN      A       192.244.3.6     ; IP Kotalingga
+www             IN      CNAME   solok.it22.com.
+' > /etc/bind/jarkom/solok.it22.com
+
+service bind9 restart
+```
+Lakukan reconfig pada Load Balancer (Solok)
+```bash
+service nginx stop
+
+echo 'upstream backend {
+server 192.244.3.6; # IP Kotalingga
+server 192.244.2.4; # IP Bedahulu
+server 192.244.2.3; # IP Lipovka
+}
+
+server {
+listen 80;
+server_name solok.it22.com www.solok.it22.com; 
+
+location / {
+proxy_pass http://backend;
+}
+}
+' > /etc/nginx/sites-enabled/default
+
+service nginx restart
+```
+</details>
+
+## SOAL 17
+> Agar aman, buatlah konfigurasi agar solok.xxx.com hanya dapat diakses melalui port sebesar π x 10^4 = (phi nya desimal) dan 2000 + 2000 log 10 (10) +700 - π = ?.
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Lakukan reconfig pada Load Balancer (Solok)
+```bash
+echo 'upstream backend {
+server 192.244.3.6; # IP Kotalingga
+server 192.244.2.4; # IP Bedahulu
+server 192.244.2.3; # IP Lipovka
+}
+
+server {
+listen 31400;
+listen 4696;
+server_name solok.it22.com www.solok.it22.com; 
+
+location / {
+proxy_pass http://backend;
+}
+}
+' > /etc/nginx/sites-enabled/default
+
+service nginx restart
+```
+Testing melalui client lain dengan command 
+```jsx
+lynx http://solok.it22.com:(31400/4696)
+```
+</details>
+
+## SOAL 18
+> Apa bila ada yang mencoba mengakses IP solok akan secara otomatis dialihkan ke www.solok.xxxx.com.
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Lakukan reconfig solok dengan script berikut
+```bash
+echo 'upstream backend {
+server 192.244.3.6; # IP Kotalingga
+server 192.244.2.4; # IP Bedahulu
+server 192.244.2.3; # IP Lipovka
+}
+
+server {
+listen 80;
+listen 31400;
+listen 4696;
+server_name solok.it22.com www.solok.it22.com; 
+
+location / {
+proxy_pass http://backend;
+if ($host = 192.244.1.3) {
+return 301 http://www.solok.it22.com:31400$request_uri;
+}
+}
+}
+' > /etc/nginx/sites-enabled/default
+
+service nginx restart
+```
+Testing di client:
+```jsx
+http://192.244.1.3/
+```
+</details>
+
+## SOAL 19
+> Karena probset sudah kehabisan ide masuk ke salah satu worker buatkan akses direktori listing yang mengarah ke resource worker2.
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Konsep soalnya adalah dengan membuat domain baru dimana kami menggunakan `sekianterimakasih.it22.com` sebagai domainnya dan melakukan setting directory listing
+```bash
+#!/bin/bash
+
+# Function to check if last command was successful
+check_error() {
+    if [ $? -ne 0 ]; then
+        echo "ERROR: $1"
+        exit 1
+    fi
+}
+
+# Cek port 80 dipakai atau tidak
+if netstat -tuln | grep -q ":80 "; then
+    echo "Port 80 is already in use. Stopping potentially conflicting services..."
+    service nginx stop 2>/dev/null
+    service apache2 stop 2>/dev/null
+    sleep 2
+fi
+
+mkdir -p /var/www/sekianterimakasih.it22.com
+check_error "Failed to create directory"
+
+cd /var/www/sekianterimakasih.it22.com
+check_error "Failed to change directory"
+
+curl -k "https://drive.usercontent.google.com/download?id={1JGk8b-tZgzAOnDqTx5B3F9qN6AyNs7Zy}&confirm=xxx" -o worker2.zip
+check_error "Failed to download worker2.zip"
+
+unzip -o worker2.zip
+check_error "Failed to unzip worker2.zip"
+
+rm -rf /var/www/sekianterimakasih.it22.com/worker2
+
+# Pindahkan direktori worker2 
+if [ -d "dir-listing/worker2" ]; then
+    cp -r dir-listing/worker2 /var/www/sekianterimakasih.it22.com/
+    check_error "Failed to copy worker2 directory"
+    rm -rf dir-listing
+else
+    echo "ERROR: Could not find worker2 directory"
+    exit 1
+fi
+
+chown -R www-data:www-data /var/www/sekianterimakasih.it22.com
+chmod -R 755 /var/www/sekianterimakasih.it22.com
+
+# Ubah file config Apache virtual host
+cat << 'EOF' > /etc/apache2/sites-available/sekianterimakasih.it22.com.conf
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/sekianterimakasih.it22.com
+    ServerName sekianterimakasih.it22.com
+    ServerAlias www.sekianterimakasih.it22.com
+
+    <Directory /var/www/sekianterimakasih.it40.com/worker2>
+        Options +Indexes
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/sekianterimakasih.it22.com_error.log
+    CustomLog ${APACHE_LOG_DIR}/sekianterimakasih.it22.com_access.log combined
+</VirtualHost>
+EOF
+check_error "Failed to create Apache configuration file"
+
+# cek log apache2 dan ubah permission
+mkdir -p /var/log/apache2
+chown -R www-data:www-data /var/log/apache2
+chmod -R 755 /var/log/apache2
+
+a2dissite 000-default.conf
+a2ensite sekianterimakasih.it22.com.conf
+
+# bantu redirect
+a2enmod rewrite
+
+apache2ctl configtest
+
+# Restart Apache more forcefully
+service apache2 stop
+sleep 2
+service apache2 start
+
+echo "Script execution completed. Checking Apache status..."
+service apache2 status
+```
+Dan terakhir, testing di client dengan:
+```jsx
+lynx 192.244.3.6/worker2
+```
+</details>
+
+## SOAL 20
+> Worker tersebut harus dapat di akses dengan sekiantterimakasih.xxxx.com dengan alias www.sekiantterimakasih.xxxx.com.
+<details>
+
+<summary>Detail Configure</summary> 
+
+Buat suatu setup konfigurasi pada DNS MAster (Sriwijaya)
+```bash
+#!/bin/bash
+
+# Buat domain sekianterimakasih.it22.com
+echo 'zone "sekianterimakasih.it22.com" {
+	type master;
+	file "/etc/bind/jarkom/sekianterimakasih.it22.com";
+};' > /etc/bind/named.conf.local
+
+mkdir /etc/bind/jarkom
+
+cp /etc/bind/db.local /etc/bind/jarkom/sekianterimakasih.it22.com
+
+echo '
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     sekianterimakasih.it22.com. sekianterimakasih.it22.com. (
+                        2024050301      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      sekianterimakasih.it22.com.
+@       IN      A       192.244.3.6     ; IP Kotalingga
+www     IN      CNAME   sekianterimakasih.it22.com.' > /etc/bind/jarkom/sekianterimakasih.it22.com
+
+service bind9 restart
+```
+Setelah itu testing di client dengan command:
+```jsx
+lynx sekianterimakasih.it22.com
+```
+```jsx
+www.sekianterimakasih.it22.com
+```
+</details>
