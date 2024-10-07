@@ -463,3 +463,145 @@ ping rujapala.it22.com
 
 ## SOAL 6
 > Beberapa daerah memiliki keterbatasan yang menyebabkan hanya dapat mengakses domain secara langsung melalui alamat IP domain tersebut. Karena daerah tersebut tidak diketahui secara spesifik, pastikan semua komputer (client) dapat mengakses domain pasopati.xxxx.com melalui alamat IP Kotalingga (Notes: menggunakan pointer record).
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+## Setup DNS @ Sriwijaya
+Pada DNS Master lakukan konfigurasi dengan melakukan pengubahan pada named.conf.local dan in-addr.arpa seperti pada konfigurasi berikut (membalik IP server Sriwijaya, yang awalnya `10.83.3' menjadi '3.83.10') :
+```bash
+#!/bin/bash
+
+# Buat reverse DNS (Record PTR)
+echo 'zone "3.244.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/jarkom/3.244.192.in-addr.arpa";
+};' >> /etc/bind/named.conf.local
+
+cp /etc/bind/db.local /etc/bind/jarkom/3.244.192.in-addr.arpa
+
+echo ';
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     pasopati.it22.com. root.pasopati.it22.com. (
+                        2024050301      ; Serial
+                         604800         ; Refresh
+   86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+3.244.192.in-addr.arpa.    IN      NS      pasopati.it22.com.
+3                          IN      PTR     pasopati.it22.com.' > /etc/bind/jarkom/3.244.192.in-addr.arpa
+
+service bind9 restart
+```
+Setelah itu pada masing-masing client (Samaratungga, Mulawarman, AlexanderVolta, Balaraja) lakukan setup konfigurasi
+```bash
+# Set nameserver ke IP Nusantara
+echo 'nameserver 192.168.122.1' > /etc/resolv.conf
+
+# Install utils
+apt-get update
+apt-get install dnsutils -y
+
+# Kembalikan nameserver ke Sriwijaya and Majapahit
+echo '
+nameserver 192.244.3.5
+nameserver 192.244.2.2' > /etc/resolv.conf
+```
+```jsx
+dig -x 192.244.3.6
+```
+</details>
+
+## SOAL 7
+> Akhir-akhir ini seringkali terjadi serangan brainrot ke DNS Server Utama, sebagai tindakan antisipasi kamu diperintahkan untuk membuat DNS Slave di Majapahit untuk semua domain yang sudah dibuat sebelumnya yang mengarah ke Sriwijaya.
+
+<details>
+
+<summary>Detail Configure</summary> 
+
+Buka file konfigurasi BIND di Majapahit:
+```jsx
+nano /etc/bind/named.conf.local
+```
+Tambahkan konfigurasi untuk setiap domain yang ada di DNS Master (Sriwijaya):
+```bash
+#!/bin/bash
+
+# Tambahkan kebutuhan untuk menjadi master Sriwijaya
+echo '
+zone "sudarsana.it22.com" {
+        type master;
+        notify yes;
+        also-notify { 192.244.2.2; }; //IP Majapahit
+        allow-transfer { 192.244.2.2; }; //IP Majapahit
+        file "/etc/bind/jarkom/sudarsana.it22.com";
+};
+
+zone "pasopati.it22.com" {
+        type master;
+        notify yes;
+        also-notify { 192.244.2.2; }; //IP Majapahit
+        allow-transfer { 192.244.2.2; }; //IP Majapahit
+        file "/etc/bind/jarkom/pasopati.it22.com";
+};
+
+zone "rujapala.it22.com" {
+        type master;
+        notify yes;
+        also-notify { 192.244.2.2; }; //IP Majapahit
+        allow-transfer { 192.244.2.2; }; //IP Majapahit
+        file "/etc/bind/jarkom/rujapala.it22.com";
+};' > /etc/bind/named.conf.local
+
+service bind9 restart
+```
+Lalu lakukan setup konfigurasi juga pada DNS Slave (Majapahit)
+```bash
+#!/bin/bash
+# Cek apakah bind9 sudah terinstal
+if ! command -v named &> /dev/null
+then
+    echo "Bind9 belum terinstal, melakukan instalasi..."
+    # Melakukan instalasi bind9
+    apt-get update
+    apt-get install bind9 -y
+else
+    echo "Bind9 sudah terinstal."
+fi
+
+echo '
+zone "sudarsana.it22.com" {
+    type slave;
+    masters {  192.244.3.5; }; // IP Sriwijaya
+    file "/var/lib/bind/sudarsana.it22.com";
+};
+
+zone "pasopati.it22.com" {
+    type slave;
+    masters {  192.244.3.5; }; // IP Sriwijaya
+    file "/var/lib/bind/pasopati.it22.com";
+};
+
+zone "rujapala.it22.com" {
+    type slave;
+    masters {  192.244.3.5; }; // IP Sriwijaya
+    file "/var/lib/bind/rujapala.it22.com";
+};' > /etc/bind/named.conf.local
+
+service bind9 restart
+```
+</details>
+
+## SOAL 8
+> Kamu juga diperintahkan untuk membuat subdomain khusus melacak kekuatan tersembunyi di Ohio dengan subdomain cakra.sudarsana.xxxx.com yang mengarah ke Bedahulu.
+
+## SOAL 9
+> Karena terjadi serangan DDOS oleh shikanoko nokonoko koshitantan (NUN), sehingga sistem komunikasinya terhalang. Untuk melindungi warga, kita diperlukan untuk membuat sistem peringatan dari siren man oleh Frekuensi Freak dan memasukkannya ke subdomain panah.pasopati.xxxx.com dalam folder panah dan pastikan dapat diakses secara mudah dengan menambahkan alias www.panah.pasopati.xxxx.com dan mendelegasikan subdomain tersebut ke Majapahit dengan alamat IP menuju radar di Kotalingga.
+
+## SOAL 10
+> Markas juga meminta catatan kapan saja meme brain rot akan dijatuhkan, maka buatlah subdomain baru di subdomain panah yaitu log.panah.pasopati.xxxx.com serta aliasnya www.log.panah.pasopati.xxxx.com yang juga mengarah ke Kotalingga.
