@@ -521,7 +521,7 @@ host -t PTR 192.244.3.6
 
 <summary>Detail Dokumentasi</summary>
 
-![image](https://github.com/user-attachments/assets/afb49bd6-03ba-4879-ba16-e3a00425a2e8)
+![image](https://github.com/user-attachments/assets/d5c60a13-60c4-4610-aef1-45f04a82136a)
 
 </details>
 
@@ -655,7 +655,7 @@ service bind9 restart
 
 <summary>Detail Dokumentasi</summary>
 
-![image](https://github.com/user-attachments/assets/7863f8b6-6500-4ade-901f-b58ea7aca555)
+
 
 </details>
 
