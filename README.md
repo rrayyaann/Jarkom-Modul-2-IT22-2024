@@ -515,6 +515,14 @@ nameserver 192.244.2.2' > /etc/resolv.conf
 ```jsx
 host -t PTR 192.244.3.6
 ```
+![image](https://github.com/user-attachments/assets/3104d08e-1cc6-4392-9b72-4996467f5ccd)
+
+![image](https://github.com/user-attachments/assets/346403b3-fd95-495f-8b67-845767d4dbbe)
+
+![image](https://github.com/user-attachments/assets/5adfcc3c-21c1-4815-a904-3ae866765eb6)
+
+![image](https://github.com/user-attachments/assets/26196f38-1cb3-4923-a840-56e4b1ed8b58)
+
 </details>
 
 ## SOAL 7
@@ -627,6 +635,14 @@ cakra  IN      A        192.244.2.4     ; IP Bedahulu' > /etc/bind/jarkom/sudars
 
 service bind9 restart
 ```
+![image](https://github.com/user-attachments/assets/b118f0aa-407c-4cb8-9329-3bf8dab0d963)
+
+![image](https://github.com/user-attachments/assets/e9f7e014-2a9a-4f60-98b9-d86df9df225e)
+
+![image](https://github.com/user-attachments/assets/6813360c-2556-4087-8dd2-1b17f65f916e)
+
+![image](https://github.com/user-attachments/assets/ef8f8103-cf0e-433a-91b6-bd62e7fe6a6a)
+
 </details>
 
 ## SOAL 9
@@ -715,6 +731,12 @@ www     IN      CNAME   panah.pasopati.it22.com.' > /etc/bind/panah/panah.pasopa
 
 service bind9 restart
 ```
+![image](https://github.com/user-attachments/assets/d8adb605-f7ec-4ece-a427-c4fc103add26)
+
+![image](https://github.com/user-attachments/assets/06a1fc76-0e15-4de5-94b4-a96a538a0586)
+
+![image](https://github.com/user-attachments/assets/a0d60df4-c165-4395-a3a9-5502efca6982)
+
 </details>
 
 ## SOAL 10
@@ -749,6 +771,8 @@ www.log IN      CNAME   panah.pasopati.it22.com.' > /etc/bind/panah/panah.pasopa
 
 service bind9 restart
 ```
+![image](https://github.com/user-attachments/assets/ee464037-7951-47c6-94b8-82852bdac6a5)
+
 </details>
 
 ## SOAL 11
@@ -800,6 +824,8 @@ options {
 
 service bind9 restart
 ```
+![image](https://github.com/user-attachments/assets/adc5125f-6c55-47a3-90e5-c085b80c873c)
+
 </details>
 
 ## SOAL 12
@@ -1076,8 +1102,11 @@ server {
 service nginx restart
 ```
 ![image](https://github.com/user-attachments/assets/61982af0-d9cc-494d-9b07-0cae354fb416)
+
 ![image](https://github.com/user-attachments/assets/d0ada24a-3c41-49bf-a94f-bd295f813fff)
+
 ![image](https://github.com/user-attachments/assets/130b2ed1-f421-4c74-9652-af0203e5d965)
+
 ![image](https://github.com/user-attachments/assets/3a91691c-e5fd-4906-af55-0759fc8eb88d)
 
 </details>
