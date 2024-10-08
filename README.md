@@ -523,14 +523,6 @@ host -t PTR 192.244.3.6
 
 ![image](https://github.com/user-attachments/assets/afb49bd6-03ba-4879-ba16-e3a00425a2e8)
 
-![image](https://github.com/user-attachments/assets/3104d08e-1cc6-4392-9b72-4996467f5ccd)
-
-![image](https://github.com/user-attachments/assets/346403b3-fd95-495f-8b67-845767d4dbbe)
-
-![image](https://github.com/user-attachments/assets/5adfcc3c-21c1-4815-a904-3ae866765eb6)
-
-![image](https://github.com/user-attachments/assets/26196f38-1cb3-4923-a840-56e4b1ed8b58)
-
 </details>
 
 ## SOAL 7
@@ -613,6 +605,20 @@ service bind9 restart
 ```
 </details>
 
+<details>
+
+<summary>Detail Dokumentasi</summary>
+
+![image](https://github.com/user-attachments/assets/3104d08e-1cc6-4392-9b72-4996467f5ccd)
+
+![image](https://github.com/user-attachments/assets/346403b3-fd95-495f-8b67-845767d4dbbe)
+
+![image](https://github.com/user-attachments/assets/5adfcc3c-21c1-4815-a904-3ae866765eb6)
+
+![image](https://github.com/user-attachments/assets/26196f38-1cb3-4923-a840-56e4b1ed8b58)
+
+</details> 
+
 ## SOAL 8
 > Kamu juga diperintahkan untuk membuat subdomain khusus melacak kekuatan tersembunyi di Ohio dengan subdomain cakra.sudarsana.xxxx.com yang mengarah ke Bedahulu.
 <details>
@@ -643,13 +649,15 @@ cakra  IN      A        192.244.2.4     ; IP Bedahulu' > /etc/bind/jarkom/sudars
 
 service bind9 restart
 ```
-![image](https://github.com/user-attachments/assets/b118f0aa-407c-4cb8-9329-3bf8dab0d963)
+</details> 
 
-![image](https://github.com/user-attachments/assets/e9f7e014-2a9a-4f60-98b9-d86df9df225e)
+<details>
 
-![image](https://github.com/user-attachments/assets/6813360c-2556-4087-8dd2-1b17f65f916e)
+<summary>Detail Dokumentasi</summary>
 
-![image](https://github.com/user-attachments/assets/ef8f8103-cf0e-433a-91b6-bd62e7fe6a6a)
+![image](https://github.com/user-attachments/assets/7863f8b6-6500-4ade-901f-b58ea7aca555)
+
+</details>
 
 </details>
 
