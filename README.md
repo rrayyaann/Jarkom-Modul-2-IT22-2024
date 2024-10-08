@@ -913,6 +913,9 @@ cp worker/index.php /var/www/html/index.php
 
 service apache2 restart
 ```
+
+![image](https://github.com/user-attachments/assets/6f0acaa3-f01f-4d52-899d-fb0b449bc33c)
+
 </details>
 
 ## SOAL 13
