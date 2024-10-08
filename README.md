@@ -4,7 +4,7 @@
 | Nama | NRP |
 |---------------------------|------------|
 |Muhamad Arrayyan | 5027231014 |
-
+|Fadlillah Cantika Sari Hermawan | 5027231042 |
 
 ## Topologi 
 <img width="1500" alt="image" src="https://github.com/user-attachments/assets/4da21f44-b5a4-4af5-ab88-b38abc6b979a">
