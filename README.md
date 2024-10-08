@@ -747,11 +747,19 @@ www     IN      CNAME   panah.pasopati.it22.com.' > /etc/bind/panah/panah.pasopa
 
 service bind9 restart
 ```
+</details>
+
+<details>
+
+<summary>Detail Dokumentasi</summary>
+
 ![image](https://github.com/user-attachments/assets/d8adb605-f7ec-4ece-a427-c4fc103add26)
 
 ![image](https://github.com/user-attachments/assets/06a1fc76-0e15-4de5-94b4-a96a538a0586)
 
 ![image](https://github.com/user-attachments/assets/a0d60df4-c165-4395-a3a9-5502efca6982)
+
+</details>
 
 </details>
 
@@ -787,7 +795,15 @@ www.log IN      CNAME   panah.pasopati.it22.com.' > /etc/bind/panah/panah.pasopa
 
 service bind9 restart
 ```
+</details>
+
+<details>
+
+<summary>Detail Dokumentasi</summary>
+
 ![image](https://github.com/user-attachments/assets/ee464037-7951-47c6-94b8-82852bdac6a5)
+
+</details>
 
 </details>
 
@@ -840,6 +856,12 @@ options {
 
 service bind9 restart
 ```
+</details>
+
+<details>
+
+<summary>Detail Dokumentasi</summary>
+
 ![image](https://github.com/user-attachments/assets/adc5125f-6c55-47a3-90e5-c085b80c873c)
 
 </details>
@@ -929,6 +951,11 @@ cp worker/index.php /var/www/html/index.php
 
 service apache2 restart
 ```
+</details>
+
+<details>
+
+<summary>Detail Dokumentasi</summary>
 
 ![image](https://github.com/user-attachments/assets/6f0acaa3-f01f-4d52-899d-fb0b449bc33c)
 
@@ -1120,6 +1147,12 @@ server {
 
 service nginx restart
 ```
+</details>
+
+<details>
+
+<summary>Detail Dokumentasi</summary>
+
 ![image](https://github.com/user-attachments/assets/61982af0-d9cc-494d-9b07-0cae354fb416)
 
 ![image](https://github.com/user-attachments/assets/d0ada24a-3c41-49bf-a94f-bd295f813fff)
