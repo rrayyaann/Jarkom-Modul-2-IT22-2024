@@ -1075,6 +1075,11 @@ server {
 
 service nginx restart
 ```
+![image](https://github.com/user-attachments/assets/61982af0-d9cc-494d-9b07-0cae354fb416)
+![image](https://github.com/user-attachments/assets/d0ada24a-3c41-49bf-a94f-bd295f813fff)
+![image](https://github.com/user-attachments/assets/130b2ed1-f421-4c74-9652-af0203e5d965)
+![image](https://github.com/user-attachments/assets/3a91691c-e5fd-4906-af55-0759fc8eb88d)
+
 </details>
 
 ## SOAL 15
