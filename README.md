@@ -515,6 +515,14 @@ nameserver 192.244.2.2' > /etc/resolv.conf
 ```jsx
 host -t PTR 192.244.3.6
 ```
+</details> 
+
+<details>
+
+<summary>Detail Dokumentasi</summary>
+
+![image](https://github.com/user-attachments/assets/afb49bd6-03ba-4879-ba16-e3a00425a2e8)
+
 ![image](https://github.com/user-attachments/assets/3104d08e-1cc6-4392-9b72-4996467f5ccd)
 
 ![image](https://github.com/user-attachments/assets/346403b3-fd95-495f-8b67-845767d4dbbe)
