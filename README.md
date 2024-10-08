@@ -489,7 +489,7 @@ $TTL    604800
 @       IN      SOA     pasopati.it22.com. root.pasopati.it22.com. (
                         2024050301      ; Serial
                          604800         ; Refresh
-   86400         ; Retry
+                          86400         ; Retry
                         2419200         ; Expire
                          604800 )       ; Negative Cache TTL
 ;
@@ -513,7 +513,7 @@ nameserver 192.244.3.5
 nameserver 192.244.2.2' > /etc/resolv.conf
 ```
 ```jsx
-dig -x 192.244.3.6
+host -t PTR 192.244.3.6
 ```
 </details>
 
